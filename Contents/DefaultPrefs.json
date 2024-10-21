@@ -18,6 +18,42 @@
     "default": true
   },
   {
+    "id": "full",
+    "label": "Full Date (Variables: {year}, {month}, {month_zero}, {month_name}, {day}, {day_zero})",
+    "type": "text",
+    "default": "{year}-{month}-{day}"
+  },
+  {
+    "id": "full_variant",
+    "label": "Full Date with Variant (Variables: {year}, {month}, {month_zero}, {month_name}, {day}, {day_zero}, {variant}, {variant_zero})",
+    "type": "text",
+    "default": "{year}-{month}-{day}-{variant}"
+  },
+  {
+    "id": "month",
+    "label": "Month Date (Variables: {year}, {month}, {month_zero}, {month_name})",
+    "type": "text",
+    "default": "{year}-{month}-XX"
+  },
+  {
+    "id": "month_variant",
+    "label": "Month Date with Variant (Variables: {year}, {month}, {month_zero}, {month_name}, {variant}, {variant_zero})",
+    "type": "text",
+    "default": "{year}-{month}-XX-{variant}"
+  },
+  {
+    "id": "year",
+    "label": "Year Date (Variables: {year})",
+    "type": "text",
+    "default": "{year}-XX-XX"
+  },
+  {
+    "id": "year_variant",
+    "label": "Year Date with Variant (Variables: {year}, {variant}, {variant_zero})",
+    "type": "text",
+    "default": "{year}-XX-XX-{variant}"
+  },
+  {
     "id": "title_format",
     "label": "Title format (Variables: {show}, {date}, {tour}, {master})",
     "type": "text",

@@ -112,24 +112,58 @@ def download_subtitles(recording_id, media, movie):
 # Used for the preference to define the format of Plex Titles
 def format_title(template, data):    
     date_info = data.get('date', {})
-    full_date = ""
-    
-    if date_info.get('day_known') is False:
-        if date_info.get('month_known') is False:
-            full_date = date_info.get('full_date')[:4]  # Return YYYY
-        else:
-            month = int(date_info.get('full_date')[5:7])
-            full_date = "{}, {}".format(month_name(month), date_info.get('full_date')[:4])  # Return Month, YYYY
-    else:
-        full_date = date_info.get('full_date', '').lower()
+    full_date = date_info.get('full_date')
+
+    day_known = date_info.get('day_known')
+    month_known = date_info.get('month_known')
     date_variant = date_info.get('date_variant')
+    year_value = full_date[:4]
+    month_value = full_date[5:7]
+    month_no_zero = month_value[1] if month_value[0] == '0' else month_value
+    month_zero = month_value
+    day_value = full_date[8:10]
+    day_no_zero = day_value[1] if day_value[0] == '0' else day_value
+    day_zero = day_value
+
+    full = Prefs['full']
+    full_variant = Prefs['full_variant']
+    month_variant = Prefs['month_variant']
+    month = Prefs['month']
+    year_variant = Prefs['year_variant']
+    year = Prefs['year']
+
+    if month_known:
+        if day_known:
+            if date_variant:
+                date = full_variant
+            else:
+                date = full
+            date = date.replace('{day}', day_no_zero)
+            date = date.replace('{day_zero}', day_zero)
+        else:
+            if date_variant:
+                date = month_variant
+            else:
+                date = month
+        date = date.replace('{month}', month_no_zero)
+        date = date.replace('{month_zero}', month_zero)
+        date = date.replace('{month_name}', month_name(int(month_value)))
+    else:
+        if date_variant:
+            date = year_variant
+        else:
+            date = year
+    date = date.replace('{year}', year_value)
     if date_variant:
-        full_date += " ({})".format(date_variant)
+        variant_no_zero = date_variant
+        variant_zero = "0" + date_variant if len(date_variant) == 1 else date_variant
+        date = date.replace('{variant}', variant_no_zero)
+        date = date.replace('{variant_zero}', variant_zero)
 
     title = template
     title = title.replace('{show}', data.get('show', ''))
     title = title.replace('{tour}', data.get('tour', ''))
-    title = title.replace('{date}', full_date)
+    title = title.replace('{date}', date)
     title = title.replace('{master}', data.get('master', ''))
     title = title.replace(' - Part One', '')
     title = title.replace(' - Part 1', '')
